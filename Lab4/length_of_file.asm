@@ -5,6 +5,14 @@ length_of_file:
 	
 #Start your coding here
 	
+	#####----Reg Preservation----####
+	addi sp, sp, -32
+	sd t0, 0(sp)
+	sd t2, 8(sp)
+	sd t3, 16(sp)
+	sd a1, 24(sp)
+	#####----Reg Preservation----####
+	
 	#init
 	addi t0, a1, 0
 	li t3, 0 #count
@@ -26,6 +34,14 @@ length_of_file:
 	end_loop:
 	
 	addi a0, t3, 0 #return value
+	
+	#####----Reg Preservation----####
+	ld t0, 0(sp)
+	ld t2, 8(sp)
+	ld t3, 16(sp)
+	ld a1, 24(sp)
+	addi sp, sp, 32
+	#####----Reg Preservation----####
 	
 #End your coding here
 	ret

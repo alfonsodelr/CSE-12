@@ -63,7 +63,9 @@
 	msg: .asciz "Size of file data (in bytes): " 
 	totalPrompt: .asciz "Total income garnered from all stocks: $"
 	maxPrompt: .asciz "Stock name with maximum income:"
-	newline: .asciz " \n" 	
+	newline: .asciz "\n" 	
+	num: .asciz "\n========================"
+	output: .asciz "\nOutput: "
 .text
 main:	
 	#open file as read
@@ -107,8 +109,8 @@ main:
 	#Comment out the line above so that you can test your code for different data in data.csv!!!!!
 	
 	li a1, 0x0ffff0000
-	jal allocate_file_record_pointers
-	jal income_from_record ##########################
+	
+	jal allocate_file_record_pointers	
 	
 	lwu t1, 0(sp)
 	addi sp, sp, 4
@@ -119,11 +121,14 @@ main:
 	print_str(totalPrompt)
 	li a0, 0x10040000
 	addi a1, t6, 0 #no. of records in file
+	
 	addi sp, sp, -4
 	sw t6, 0(sp)
+	
 	jal totalIncome
 	lwu t6, 0(sp)
 	addi sp, sp, 4
+	
 	print_Int(a0)	
 	print_str(newline)
 	
@@ -132,22 +137,23 @@ main:
 	li a0, 0x10040000
 	addi a1, t6, 0#no. of records in file
 	jal maxIncome
+	
 	#a0 contains pointer to address that is start of stock name from pointer table
 	#a0+4 then points to address that is start of stock income in original file
 	addi t0, a0, 0
+	
 	addi t1, a0, 4
 	lwu t0, 0(t0)
 	lwu t1, 0(t1)
 	addi t1, t1, -1
-	# t1 now contains address of last character in stock name
-
+	# t1 now contains address of last character in stock names
 printmaxIncomeloop:	
 	beq t0, t1, printmaxIncomeloopExit
 	lbu t2, 0(t0)
 	#loading byte at address in t0 into t2
 	print_character(t2) 
 	
-printmaxIncomeloopUpdate: 
+printmaxIncomeloopUpdate:
 	addi t0, t0, 1	
 	j printmaxIncomeloop		
 printmaxIncomeloopExit:

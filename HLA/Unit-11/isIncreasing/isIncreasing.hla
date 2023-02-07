@@ -1,0 +1,67 @@
+program P9;
+#include( "stdlib.hhf" );
+
+static
+i_input : int32 := 0;
+j_input : int32 := 0;
+k_input : int32 := 0;
+
+procedure isDecreasing( i: int32; j : int32; k : int32 ); @nodisplay; @noframe;
+static
+iReturnAddress : dword;
+
+begin isDecreasing;
+
+pop(iReturnAddress);
+pop(k);
+pop(j);
+pop(i);
+push(iReturnAddress);
+
+push(EBX); //preserve EBX before use
+
+mov(j, EBX); 
+cmp(i, EBX); //if i > j then test for if j > k
+jg first_pass; 
+
+jmp ret_false; //else return 0
+
+first_pass:
+mov(k, EBX);
+cmp(j, EBX); //if j > k then return true
+jg ret_true;
+
+jmp ret_false; //else return 0
+
+ret_true:
+mov(1, EAX);
+jmp finish;
+
+ret_false:
+mov(0, EAX);
+jmp finish;
+
+finish:
+
+pop(EBX); //preserve EBX after use
+ret();
+end isDecreasing;
+
+begin P9;
+
+stdout.put("Feed Me i: ");
+stdin.get(i_input);
+stdout.put("Feed Me j: ");
+stdin.get(j_input);
+stdout.put("Feed Me k: ");
+stdin.get(k_input);
+
+push(i_input);
+push(j_input);
+push(k_input);
+call isDecreasing;
+
+stdout.put("EAX = ");
+stdout.puti32(EAX);
+
+end P9;

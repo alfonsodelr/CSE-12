@@ -1,0 +1,70 @@
+program DT;
+
+#include ( "stdlib.hhf" );
+static 
+input: int8; 
+
+begin DT;
+stdout.put( "Gimme a starting vlaue: ");
+
+stdin.get( input ); 
+
+mov(input, AH);
+
+stdout.put("Double Table",nl);
+    
+stdout.put(input, ": ");
+rol(1, input);
+
+stdout.put(input, " ");
+rol(1, input);
+
+stdout.put(input, " ");
+rol(1, input);
+
+stdout.put(input, nl);
+
+ror(3, input);
+add(1, input);
+
+stdout.put(input, ": ");
+rol(1, input);
+
+stdout.put(input, " ");
+rol(1, input);
+
+stdout.put(input, " ");
+rol(1, input);
+
+stdout.put(input, nl);
+
+ror(3, input); 
+add(1, input);
+
+
+stdout.put(input, ": ");
+rol(1, input);
+
+stdout.put(input, " ");
+rol(1, input);
+
+stdout.put(input, " ");
+rol(1, input);
+
+stdout.put(input, nl);
+
+ror(3, input);
+add(1, input);
+
+stdout.put(input, ": ");
+rol(1, input);
+
+stdout.put(input, " ");
+rol(1, input);
+
+stdout.put(input, " ");
+rol(1, input);
+
+stdout.put(input, nl);
+
+end DT;

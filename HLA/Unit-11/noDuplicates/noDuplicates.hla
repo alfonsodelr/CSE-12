@@ -1,0 +1,71 @@
+program P9_2
+#include( "stdlib.hhf" );
+
+static
+x_input : int16 := 0;
+y_input : int16 := 0;
+z_input : int16 := 0;
+
+procedure noDuplicates( x: int16; y: int16; z: int16 ); @nodisplay; @noframe; 
+
+static
+iReturnAddress : dword;
+
+begin noDuplicates;
+
+pop(iReturnAddress);  //
+pop(z);
+pop(y);               // getting parameter
+pop(x);
+push(iReturnAddress); //
+
+push(BX); //preserve AH before use
+
+mov(x, BX); // if x = y return 0
+cmp(y, BX);
+je ret_false;
+
+mov(y, BX); // if y = z return 0 
+cmp(z, BX);
+je ret_false;
+
+mov(x, BX); // if x = z return 0 
+cmp(z, BX);
+je ret_false;
+
+jmp ret_true; // else none are equal so return 1 
+
+ret_true:
+mov(1, AL);
+jmp finish;
+
+ret_false:
+mov(0, AL);
+jmp finish;
+
+finish: //preserve AH after use
+
+pop(BX);
+ret();
+end noDuplicates;
+
+
+begin P9_2;
+
+stdout.put("Feed Me i: ");
+stdin.get(x_input);
+stdout.put("Feed Me j: ");
+stdin.get(y_input);
+stdout.put("Feed Me k: ");
+stdin.get(z_input);
+
+push(x_input);
+push(y_input);
+push(z_input);
+
+call noDuplicates;
+
+stdout.put("AL = ");
+stdout.puti8(AL);
+
+end P9_2;

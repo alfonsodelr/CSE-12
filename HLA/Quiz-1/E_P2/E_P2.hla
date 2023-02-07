@@ -1,0 +1,70 @@
+program Exam_Part_2;
+#include ("stdlib.hhf") 
+
+static
+input: int32 := 0;
+smallest: int32 := 0;
+biggest: int32 := 0;
+total_num: int32:= 0;
+
+begin Exam_Part_2;
+
+stdout.put("Gimme data: ");
+stdin.get(input);
+MOV(input, biggest);
+inc(total_num);
+
+stdout.put("Gimme data: ");
+stdin.get(input);
+MOV(input, smallest); 
+
+MOV(biggest, EAX);
+cmp(smallest, EAX);
+jnl FirstEnd;
+inc(total_num);
+
+/////////////////////////////////////////////////////
+
+WhileLp:
+stdout.put("Gimme data: ");
+stdin.get(input);
+
+WhileLpTermination: //condition
+MOV(input, EAX);
+cmp(EAX, biggest); 
+jng GreaterEnd; //if input is not bigger than the biggest
+MOV(EAX, biggest);
+inc(total_num);
+
+stdout.put("Gimme data: ");
+stdin.get(input);
+
+MOV(input, EAX);
+cmp(EAX, smallest);
+jnl LessEnd; //if input is not less than smallest
+MOV(EAX, smallest);
+inc(total_num);
+
+jmp WhileLp; //else keep looping
+
+    GreaterEnd:
+    stdout.put("Data entry ended because ", input ," is not bigger than ", biggest);
+    stdout.newln();
+    stdout.put("There were ", total_num ," numbers entered successfully");
+    jmp WhileLpDone;
+
+    LessEnd:
+    stdout.put("Data entry ended because ", input ," is not smaller than ", smallest);
+    stdout.newln();
+    stdout.put("There were ", total_num ," numbers entered successfully");
+    jmp WhileLpDone;
+
+    FirstEnd:
+    stdout.put("Data entry ended because ", smallest ," is not smaller than ", biggest);
+    stdout.newln();
+    stdout.put("There were ", total_num ," numbers entered successfully");
+jmp WhileLpDone;
+
+WhileLpDone:
+
+end Exam_Part_2;

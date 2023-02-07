@@ -1,0 +1,57 @@
+program sum_up;
+
+#include ("stdlib.hhf");
+
+static
+input: int8 := 0;
+I: int8 := 1;
+J : int8 := 0;
+sum : int8 := 0;
+
+begin sum_up;
+
+stdout.newln();
+stdout.put("Gimme a decimal value to use as n: ");
+stdin.get(input);
+stdout.put("Here's the looping values: ");
+add(1, input);
+
+ForLp:
+InitializeForLp: //INITIALIZE
+mov(input, AL);
+ForLpTerminationTest: //CONDITION
+cmp(I, AL);
+jnl ForLpDone;
+ForLpBody: //BODY
+////////////////////////////////////////////////////////////////////////
+ForLp2:
+InitializeForLp2: //INITIALIZE
+mov(I, BH);
+mov(0, J);
+ForLpTerminationTest2: //CONDITION
+cmp(J, BH);
+jnl ForLpDone2;
+ForLpBody2: //BODY
+inc(J);
+mov(sum, BL);
+add(J, BL);
+mov(BL,sum);
+stdout.puti8(J);
+stdout.put(" ");
+dec(J);
+
+ForLpIncrement2:
+inc(J);
+jmp ForLpTerminationTest2;
+ForLpDone2:
+////////////////////////////////////////////////////////////////////////
+ForLpIncrement:
+inc(I);
+jmp ForLpTerminationTest;
+ForLpDone:
+
+stdout.newln();
+stdout.put("Here's the sum of all those digits: ", sum,nl,nl);
+stdout.put("Program Finished", nl);
+
+end sum_up;

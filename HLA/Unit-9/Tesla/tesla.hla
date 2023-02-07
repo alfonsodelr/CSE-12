@@ -1,0 +1,237 @@
+program Tesla;
+#include ("stdlib.hhf") 
+
+static
+input: int16 := 0;
+
+begin Tesla;
+
+stdout.put("Feed me(4 hex digits ending with srttccbbmm): ");
+stdin.get(BX);
+
+mov(BL, CL); //CL and CH are my permanent storages of the input.
+mov(BH, CH); 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//SUNROOF
+
+mov(CH, BH); //reset value of BH for use 
+
+and(%0000_0010, BH); //isolate value for s - sunroof wanted or not 
+
+sunroof_conditions:
+cmp(BH, %0000_0000); //check if no sunroof
+je sunroof_satisfied_00;
+cmp(BH, %0000_0010); //check if yes sunroof
+je sunroof_satisfied_01;
+
+sunroof_satisfied_00:
+stdout.put("No sunroof");
+jmp sunroof_end;
+
+sunroof_satisfied_01:
+stdout.put("Sunroof");
+jmp sunroof_end;
+
+sunroof_end:
+stdout.newln();
+
+//SUNROOF END
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ROOFRACK
+
+mov(CH, BH); //reset value of BH for use 
+
+and(%0000_0001, BH); //isolate value for r - roofrack wanted or not 
+
+roofrack_conditions:
+cmp(BH, 0000_0000); //check if no roofrack
+je roofrack_satisfied_00;
+cmp(BH, 0000_0001); //check if yes roofrack
+je roofrack_satisfied_01;
+
+roofrack_satisfied_00:
+stdout.put("No roofrack");
+jmp roofrack_end;
+
+roofrack_satisfied_01:
+stdout.put("Roofrack");
+jmp roofrack_end;
+
+roofrack_end:
+stdout.newln();
+
+// ROOFRACK END
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// TIRE SIZE
+
+mov(CL, BL); //reset value of BL for use 
+
+and(%1100_0000, BL); //isolate value for tt - tire size
+
+tire_conditions:
+cmp(BL, %0000_0000); //check if tire size is 00 - 18 inch
+je tire_satisfied_00;
+cmp(BL, %0100_0000); //check if tire size is 01 - 19 inch
+je tire_satisfied_01;
+cmp(BL, %1000_0000); //check if tire size is 10 - 20 inch
+je tire_satisfied_10;
+cmp(BL, %1100_0000); //check if tire size is 11 - 21 inch
+je tire_satisfied_11;
+
+tire_satisfied_00:
+stdout.put("18 inch");
+jmp tire_finished;
+
+tire_satisfied_01:
+stdout.put("19 inch");
+jmp tire_finished;
+
+tire_satisfied_10:
+stdout.put("20 inch");
+jmp tire_finished;
+
+tire_satisfied_11:
+stdout.put("21 inch");
+jmp tire_finished;
+
+tire_finished:
+stdout.put(" ");
+
+// TIRE SIZE END
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// COLOR VALUE
+
+mov(CL, BL); //reset value of BL for use 
+
+and(%0011_0000, BL); //isolate value for cc - color value
+
+color_conditions:
+cmp(BL, %0000_0000); //check if color wanted is blue
+je color_satisfied_00;
+cmp(BL, %0001_0000); //check if color wanted is red
+je color_satisfied_01;
+cmp(BL, %0010_0000); //check if color wanted is white
+je color_satisfied_10;
+cmp(BL, %0011_0000); //check if color wanted is black
+je color_satisfied_11;
+
+color_satisfied_00:
+stdout.put("Blue");
+jmp color_end;
+
+color_satisfied_01:
+stdout.put("Red");
+jmp color_end;
+
+color_satisfied_10:
+stdout.put("White");
+jmp color_end;
+
+color_satisfied_11:
+stdout.put("Black");
+jmp color_end;
+
+color_end:
+stdout.put(" ");
+
+// COLOR VALUE END
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// BATTERY SIZE
+
+mov(CL, BL); //reset value of BL for use 
+
+and(%0000_1100, BL); //isolate value for bb - battery size
+
+battery_conditions:
+cmp(BL, %0000_0000);
+je battery_satisfied_00; //checks if battery size is 60 kwH
+cmp(BL, %0000_0100);
+je battery_satisfied_01; //checks if battery size is 75 kwH
+cmp(BL, %0000_1000);
+je battery_satisfied_10; //checks if battery size is 85 kwH
+cmp(BL, %0000_1100);
+je battery_satisfied_11; //checks if battery size is 100 kwH
+
+battery_satisfied_00:
+stdout.put("60 kwH");
+jmp battery_end;
+battery_satisfied_01:
+stdout.put("75 kwH");
+jmp battery_end;
+battery_satisfied_10:
+stdout.put("85 kwH");
+jmp battery_end;
+battery_satisfied_11:
+stdout.put("100 kwH");
+jmp battery_end;
+
+battery_end:
+stdout.put(" ");
+
+// BATTERY SIZE END
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// TESLA MODEL 
+
+mov(CL, BL); //reset value of BL for use 
+
+and(%0000_0011, BL); //isolate value for mm - model choice
+
+model_conditions:
+cmp(BL, %0000_0000); //check if model choice is 00 || model S
+je model_satisfied_00;
+cmp(BL, %0000_0001); //check if model choice is 01 || model X
+je model_satisfied_01;
+cmp(BL, %0000_0010); //check if model choice is 10 || model 3
+je model_satisfied_10;
+cmp(BL, %0000_0011); //check if model choice is 11 || model Y
+je model_satisfied_11;
+
+model_satisfied_00: //model S
+stdout.put("Model S");
+jmp model_finished;
+
+model_satisfied_01: //model X
+stdout.put("Model X");
+jmp model_finished;
+
+model_satisfied_10: //model 3
+stdout.put("Model 3");
+jmp model_finished;
+
+model_satisfied_11: //model Y\
+stdout.put("Model Y");
+jmp model_finished;
+
+model_finished:
+stdout.newln();
+
+// TESLA MODEL END
+
+end Tesla;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
+
+0000_00sr_ttcc_bbmm
+
+s - sunroof wanted || 1 = yes 0 = no
+r - roofrack is wanted || 1 = yes 0 = no
+tt - tire size || 00 - 18 inch, 01 - 19, 10 - 20, 11 - 21
+cc - color value || 00 - blue, 01 - red, 10 - white, 11 - black
+bb - battery size || 00 - 60 kwH, 01 - 75, 10 - 85, 11 - 100
+mm - model choice || 00 - Model S, 01 - Model X, 10 - Model 3, 11 - Model Y
+
+*/

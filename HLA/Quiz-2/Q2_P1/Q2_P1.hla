@@ -1,0 +1,115 @@
+program Part1;
+
+#include("stdlib.hhf");
+
+static
+iValue1 : int8 := 0;
+iValue2 : int8 := 0;
+iValue3 : int8 := 0;
+iValue4 : int8 := 0;
+
+procedure allEqual( value1 : int8; value2 : int8; value3 : int8; value4 : int8); @nodisplay; @noframe;
+
+static
+iReturnAddress : dword;
+iRegisterValue : dword;
+iTemporary : int16;
+
+begin allEqual;
+
+mov(EAX, iRegisterValue);
+pop(iReturnAddress);
+
+pop(iTemporary); 
+mov(iTemporary, AX);
+mov(AL, value4); //iValue4
+
+pop(iTemporary); 
+mov(iTemporary, AX);
+mov(AL, value3); //iValue3
+
+pop(iTemporary); 
+mov(iTemporary, AX);
+mov(AL, value2); //iValue2
+
+pop(iTemporary); 
+mov(iTemporary, AX);
+mov(AL, value1); //iValue1
+
+push(iReturnAddress);
+push(iRegisterValue);
+
+mov(value1, BL);
+cmp(value2, BL);
+jne not_equal;
+
+mov(value3, BL);
+cmp(value4, BL);
+jne not_equal;
+
+mov(value1, BL);
+cmp(value3, BL);
+jne not_equal;
+
+jmp equal;
+
+not_equal:
+mov(0, BX);
+jmp finished;
+
+equal:
+mov(1, BX);
+jmp finished;
+
+finished: 
+
+pop(EAX);
+ret();
+
+end allEqual;
+
+//////////////////////////////////////////////////////////////////////
+
+begin Part1;
+    
+stdout.put("Provide a value: ");
+stdin.get(iValue1);
+stdout.put("Provide a value: ");
+stdin.get(iValue2);
+stdout.put("Provide a value: ");
+stdin.get(iValue3);
+stdout.put("Provide a value: ");
+stdin.get(iValue4);
+
+mov(0, AX);
+mov(iValue1, AL);
+push(AX);
+mov(0, AX);
+mov(iValue2, AL);
+push(AX);
+mov(0, AX);
+mov(iValue3, AL);
+push(AX);
+mov(0, AX);
+mov(iValue4, AL);
+push(AX);
+
+call allEqual;
+
+cmp(BX, 0);
+je zero;
+
+jmp one;
+
+zero:
+stdout.put("allEqual returned zero!");
+jmp _finished;
+
+one:
+stdout.put("allEqual returned one!");
+jmp _finished;
+
+_finished:
+stdout.newln();
+
+end Part1;

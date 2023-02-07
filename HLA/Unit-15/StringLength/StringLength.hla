@@ -1,0 +1,74 @@
+//String Length
+
+program stringlength;
+#include("stdlib.hhf");
+#include( "cs17string.hla" );
+
+static
+input : real32 := 0;
+stringData : byte[11];
+stringDataLen : uns16 := 10;
+main_count : int8 := 0;
+
+procedure strlen( baseStringAddress: dword ); @nodisplay; @noframe; 
+
+static
+iReturnAddress : dword;
+EBXRegister : dword := 0;
+DXRegister : word := 0;
+count : int8 := 0;
+
+begin strlen;
+mov( EBX, EBXRegister );
+mov( DX, DXRegister );
+pop(iReturnAddress);
+pop(EBX);
+
+push(iReturnAddress);
+push(EBXRegister);
+push(DXRegister);
+
+mov(0,DX);
+Loop_Count:
+cmp( [ EBX ] , DH );
+je End_Count;
+inc(EBX);
+inc(count);
+jmp Loop_Count;
+
+End_Count:
+
+mov(count, AL);
+
+pop(DX);
+pop(EBX);
+ret();
+end strlen;
+
+/////////////////////////////////////////////////////////////////
+
+begin stringlength;
+
+stdout.put("Feed Me: ");
+mov(&stringData, EAX);
+push(EAX);
+push(stringDataLen);
+call gets;
+
+mov(&stringData, EAX);
+push(EAX);
+call strlen;
+
+mov(AL, main_count);
+stdout.put("The String You Entered: ");
+
+mov( &stringData, EAX );
+push( EAX );
+call puts;
+
+stdout.put(" Has Length = ");
+stdout.puti8(main_count);
+
+stdout.newln();
+end stringlength;
+

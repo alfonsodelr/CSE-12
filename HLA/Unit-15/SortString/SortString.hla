@@ -1,0 +1,130 @@
+//Sort Nums
+
+program sortstring;
+#include("stdlib.hhf");
+
+static
+a : int16 := 0; 
+b : int16 := 0;
+c : int16 := 0;
+procedure swapper( var x : int16; var y : int16; var z : int16 ); @nodisplay; @noframe; 
+
+static
+iReturnAddress : dword;
+EDXRegister : dword := 0; 
+ECXRegister : dword := 0; 
+EBXRegister : dword := 0; 
+EAXRegister : dword := 0;
+iTemporary : int8 := 0;
+
+begin swapper;
+
+mov( EAX, EAXRegister );
+mov( EBX, EBXRegister );
+mov( ECX, ECXRegister );
+mov( EDX, EDXRegister );
+
+pop(iReturnAddress);
+pop(EDX);
+mov([EDX],z);
+pop(ECX);
+mov([ECX],y);
+pop(EBX);
+mov([EBX],x);
+push(iReturnAddress);
+
+push( EDXRegister );
+push( ECXRegister );
+push( EBXRegister );
+push( EAXRegister );
+
+mov(x, EAX);
+mov(EAX, [EBX]); //a
+mov(y, EAX);
+mov(EAX, [ECX]); //b
+mov(z, EAX);
+mov(EAX, [EDX]); //c
+
+//if (a > b) jump
+A0:
+mov(0, EAX);
+mov([ECX], AL);
+cmp([EBX], AL);
+jg A1;
+//else swap (a , b)
+mov([EBX], EAX);
+mov(AL, iTemporary);
+mov([ECX], EAX);
+mov(AL, [EBX]);
+mov(iTemporary, AL);
+mov(AL, [ECX]);
+
+//if (b > c) jump
+A1:
+mov(0, EAX);
+mov([EDX], AL);
+cmp([ECX], AL);
+jg A2;
+//else swap (b , c)
+mov([ECX], EAX);
+mov(AL, iTemporary);
+mov([EDX], EAX);
+mov(AL, [ECX]);
+mov(iTemporary, AL);
+mov(AL, [EDX]);
+
+//if (a > b) jump
+A2:
+mov(0, EAX);
+mov([ECX], AL);
+cmp([EBX], AL);
+jg finished;
+//else swap (a , b)
+mov([EBX], EAX);
+mov(AL, iTemporary);
+mov([ECX], EAX);
+mov(AL, [EBX]);
+mov(iTemporary, AL);
+mov(AL, [ECX]);
+
+finished:
+
+pop( EAX );
+pop( EBX ); 
+pop( ECX );
+pop( EDX );
+
+ret();
+end swapper;
+
+/////////////////////////////////////////////////////////////////
+
+begin sortstring;
+
+stdout.put("Gimme X: ");
+stdin.get(a);
+stdout.put("Gimme Y: ");
+stdin.get(b);
+stdout.put("Gimme Z: ");
+stdin.get(c);
+
+lea(EAX, a);
+push(EAX);
+lea(EAX, b);
+push(EAX);
+lea(EAX, c);
+push(EAX);
+
+call swapper;
+
+stdout.put("After sorting, X = ");
+stdout.puti16(a); //x
+stdout.put(", Y = ");
+stdout.puti16(b); //y
+stdout.put(", Z = ");
+stdout.puti16(c); //z
+
+stdout.newln();
+
+end sortstring;
+

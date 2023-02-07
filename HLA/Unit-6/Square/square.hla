@@ -1,0 +1,99 @@
+program square;
+
+#include( "stdlib.hhf" );
+
+static 
+input: int32 := 0;
+
+begin square;
+
+    
+stdout.put( "Gimme a starting value: ", nl );
+stdin.get( input );
+
+mov(input, EAX); 
+mov(input, EBX); 
+
+stdout.puti32(EAX); 
+stdout.put(" ");
+stdout.puti32(EAX); 
+stdout.put(" ");
+
+add(1, EBX); 
+stdout.puti32(EBX);
+stdout.put(" ");
+
+stdout.puti32(EAX);
+stdout.put(" ");
+stdout.puti32(EAX);
+stdout.put(" ");
+
+stdout.put(nl);
+
+stdout.puti32(EAX); 
+stdout.put(" ");
+stdout.puti32(EAX); 
+stdout.put(" ");
+
+add(1, EBX);
+stdout.puti32(EBX);
+stdout.put(" ");
+
+stdout.puti32(EAX);
+stdout.put(" ");
+stdout.puti32(EAX);
+stdout.put(" ");
+
+stdout.put(nl);
+
+add(1, EBX);
+stdout.puti32(EBX);
+stdout.put(" ");
+add(1, EBX); 
+stdout.puti32(EBX);
+stdout.put(" ");
+add(1, EBX); 
+stdout.puti32(EBX);
+stdout.put(" ");
+add(1, EBX); 
+stdout.puti32(EBX);
+stdout.put(" ");
+add(1, EBX); 
+stdout.puti32(EBX);
+stdout.put(" ");
+
+stdout.put(nl);
+
+stdout.puti32(EAX); 
+stdout.put(" ");
+stdout.puti32(EAX); 
+stdout.put(" ");
+
+add(1, EBX); 
+stdout.puti32(EBX);
+stdout.put(" ");
+
+stdout.puti32(EAX);
+stdout.put(" ");
+stdout.puti32(EAX);
+stdout.put(" ");
+
+stdout.put(nl);
+
+stdout.puti32(EAX);
+stdout.put(" ");
+stdout.puti32(EAX); 
+stdout.put(" ");
+
+add(1, EBX); 
+stdout.puti32(EBX);
+stdout.put(" ");
+
+stdout.puti32(EAX);
+stdout.put(" ");
+stdout.puti32(EAX);
+stdout.put(" ");
+
+stdout.put(nl);
+
+end square;

@@ -1,0 +1,11 @@
+program month;
+ 
+#include( "stdlib.hhf" )
+ 
+begin month;
+    stdout.put( " OOOO   CCCC TTTTT  OOOO  BBBB  EEEE RRRR   ", nl);
+    stdout.put( "O    O C       T   O    O B   B E    R   R  ", nl);
+    stdout.put( "O    O C       T   O    O BBBB  EEEE RRRR   ", nl);
+    stdout.put( "O    O C       T   O    O B   B E    R   R  ", nl);
+    stdout.put( " OOOO   CCCC   T    OOOO  BBBB  EEEE R    R ", nl);
+end month;

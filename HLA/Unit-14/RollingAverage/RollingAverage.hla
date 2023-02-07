@@ -1,0 +1,76 @@
+program RollingAverage;
+#include("stdlib.hhf");
+
+static
+input : real32 := 0;
+roll_av : real32 := 0;
+choice : byte := 0;
+sum : real32 := 0;
+count : real32 := 1;
+prev_sum : real32 := 0;
+
+/////////////////////////////////////////////////////////////////
+
+begin RollingAverage;
+
+//first input
+stdout.put("enter data point: ");
+stdin.get(input);
+mov(input , roll_av);
+jmp WhileLpPrompt;
+
+WhileLp:
+
+stdout.put("enter data point: ");
+stdin.get(input);
+
+// calculation start 
+
+finit();
+fld(count);
+fld(roll_av);
+fmulp();
+fstp(prev_sum); // sum of all previous inputs
+
+finit(); 
+fld(input);
+fld(prev_sum);
+fadd();
+fstp(sum); // input + (sum of all previous inputs)
+
+finit();
+fld(count);
+fld(1.0);
+fadd();
+fstp(count); // increment count
+
+finit();
+fld(sum);
+fld(count);
+fdiv(); 
+fstp(roll_av); // average
+
+// calculation end
+
+// while loop output and prompt
+WhileLpPrompt:
+stdout.put("rolling average = ");
+stdout.putr32(roll_av, 6, 3);
+stdout.newln();
+
+stdout.put("more data? ");
+stdin.flushInput();
+stdin.getc();
+mov(al, choice);
+
+// if yes then loop
+cmp(choice, 121); 
+je WhileLp;
+
+// else end program
+stdout.put("final rolling average = ");
+stdout.putr32(roll_av, 6, 3);
+
+stdout.newln();
+end RollingAverage;
+

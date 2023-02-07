@@ -1,0 +1,121 @@
+program StringProgram;
+#include("stdlib.hhf");
+#include("cs17string.hla");
+static
+stringData : dword;
+answer : int32;
+
+
+procedure has1sand0s( stringData : dword); @nodisplay; @noframe;
+static
+    dReturnAddress: dword;
+    ebxRegister : dword := 0;
+    dxRegister : word := 0;
+    ones : int8 := 0;
+    zeros : dword := 0;
+
+begin has1sand0s;
+    // todo
+    pop( dReturnAddress );
+    mov(ebx, ebxRegister);
+    mov(dx, dxRegister);
+    pop(ebx);
+
+    //push back the return address;
+    push( dReturnAddress );
+    push(ebxRegister);
+    push(dxRegister);
+    mov(0,dx);
+
+    starting:
+    cmp( [ ebx ] , dh );
+    je outloop;
+
+    mov( [ ebx ] , dl);
+    cmp(dl, 48);
+    jne nextcheck;
+    inc(zeros);
+
+    nextcheck:
+//  mov( [ ebx ] , dl);
+    cmp(dl, 49);
+    jne endingloop;
+    inc(ones);
+
+    endingloop:
+    inc(ebx);
+    jmp starting;
+
+    outloop:
+
+    mov(zeros,eax);
+    cmp(zeros, 0);
+    jne checkone;
+    jmp exitprotwo;
+
+    checkone:
+    cmp(ones, 0);
+    jne exitproone;
+    jmp exitprotwo;
+
+    exitproone:
+    mov(1, eax);
+    jmp exitpro;
+
+    exitprotwo:
+    mov(0, eax);
+    jmp exitpro;
+
+    exitpro: 
+    pop(DX);
+    pop(EBX);
+    ret();
+
+end has1sand0s;
+
+begin StringProgram;
+    stdout.put( "Please enter a string to process", nl );
+
+    mov( @size (int8) , al);
+    mov( 80, bl);
+    inc(bl);
+    mul(bl);
+    mov(0,ebx);
+    mov(ax,bx);
+    malloc(ebx);
+    mov(eax,stringData);
+
+    //
+    mov(stringData, eax);
+    push(eax);
+    mov(80,cx);
+    push(cx);
+    call gets;
+
+    // print the string
+
+    stdout.put("----> here is the string you entered: ");
+
+    mov( stringData, eax);
+    push(eax);
+    call puts;
+    stdout.newln();
+
+    //initialize eax before calling the function
+
+    mov(0,eax);
+
+    // todo
+    mov(stringData,eax);
+    push(eax);
+
+    call has1sand0s;
+    mov(eax, answer);
+
+    //show the results
+
+    stdout.put( "after has1sand0s --- result = ");
+    stdout.put(answer);
+    stdout.newln();
+
+end StringProgram;

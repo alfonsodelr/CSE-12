@@ -1,0 +1,33 @@
+
+		align	4
+		label	L846_len__hla_ word
+		dd	09h
+		dd	09h
+		label	L846_str__hla_ byte
+		db	"Feed Me: "
+		db	0
+
+		db	0
+		db	0
+
+		align	4
+		label	L862_len__hla_ word
+		dd	018h
+		dd	018h
+		label	L862_str__hla_ byte
+		db	"The String You Entered: "
+		db	0
+
+		db	0
+		db	0
+		db	0
+
+		align	4
+		label	L877_len__hla_ word
+		dd	0eh
+		dd	0eh
+		label	L877_str__hla_ byte
+		db	" Has Length = "
+		db	0
+
+		db	0

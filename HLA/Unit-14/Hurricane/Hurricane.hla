@@ -1,0 +1,129 @@
+program Hurricane;
+#include("stdlib.hhf");
+
+static
+input : real32 := 0;
+
+procedure hurrican(windspeed : real32); @nodisplay; @noframe;
+
+static
+iReturnAddress : dword;
+end_val : int8 := 0;
+
+begin hurrican;
+pop(iReturnAddress);
+pop(windspeed);
+push(iReturnAddress);
+
+push(ax); // preserving AH
+
+// x <= 95 :: Some 
+_0A:
+
+finit();
+fld(95.0);
+fld(windspeed);
+fcomp();
+fstsw(ax);
+sahf();
+setbe(al);
+cmp(al, 0);
+je _0B;
+
+mov(1,end_val);
+jmp finished;
+
+// x >= 96 && x <= 110 :: Extensive 
+_0B:
+
+//x <= 110
+finit();
+fld(110.0);
+fld(windspeed);
+fcomp();
+fstsw(ax);
+sahf();
+setbe(al);
+cmp(al, 0);
+je _0C;
+
+mov(2,end_val);
+jmp finished;
+
+// x >= 111 && x <= 129 :: Devastating
+_0C:
+
+//x <= 129
+finit();
+fld(129.0);
+fld(windspeed);
+fcomp();
+fstsw(ax);
+sahf();
+setbe(al);
+cmp(al, 0);
+je _0D;
+
+mov(3,end_val);
+jmp finished;
+
+_0D:
+
+// x >= 130 && x <= 156 :: Catastrophic
+
+//x <= 156
+finit();
+fld(156.0);
+fld(windspeed);
+fcomp();
+fstsw(ax);
+sahf();
+setbe(al);
+cmp(al, 0);
+je _0E;
+
+mov(4,end_val);
+jmp finished;
+
+_0E:
+
+// x >= 157 :: Very Catastrophic
+
+// x >= 157 
+finit();
+fld(157.0);
+fld(windspeed);
+fcomp();
+fstsw(ax);
+sahf();
+setge(al);
+cmp(al, 0); 
+je finished; //if not then input is invalid
+
+mov(5,end_val);
+jmp finished;
+
+finished:
+
+pop(ax);// preserving ah
+mov(end_val, al); // using al after popping ax so ah is back to normal
+
+ret();
+end hurrican;
+
+/////////////////////////////////////////////////////////////////
+
+begin Hurricane;
+
+stdout.put("gimme windspeed: ");
+stdin.get(input);
+
+push(input);
+call hurrican;
+
+stdout.put("irs tax tier code: ");
+stdout.puti8(al);
+stdout.newln();
+
+end Hurricane;
+

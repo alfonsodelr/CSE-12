@@ -1,0 +1,53 @@
+program Exam_Part_1;
+#include ("stdlib.hhf") 
+
+static
+input: int8 := 0;
+I: int8 := 0;
+J: int8 := 0;
+inner: int8 := 0;
+
+begin Exam_Part_1;
+
+stdout.put("Feed Me: ");
+stdin.get(input);
+
+ForLp:
+InitializeForLp: //INITIALIZE
+mov(input, AL);
+ForLpTerminationTest: //CONDITION
+cmp(I, AL);
+jnl ForLpDone;
+ForLpBody: //BODY
+
+stdout.put(input); //outer loop output 
+add(1, inner); //inner only increments during the outside loop
+
+/////////////////////////////////////////
+
+ForLp2:
+InitializeForLp2: //INITIALIZE
+mov(input, BH);
+mov(0, J);
+ForLpTerminationTest2: //CONDITION
+cmp(J, BH);
+jnl ForLpDone2;
+ForLpBody2: //BODY
+
+stdout.put(inner);
+
+ForLpIncrement2:
+inc(J);
+jmp ForLpTerminationTest2;
+ForLpDone2:
+
+/////////////////////////////////////////
+
+stdout.newln(); //outer loop next line
+
+ForLpIncrement:
+inc(I);
+jmp ForLpTerminationTest;
+ForLpDone:
+
+end Exam_Part_1;

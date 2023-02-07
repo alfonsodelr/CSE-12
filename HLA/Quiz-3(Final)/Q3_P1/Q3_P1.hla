@@ -1,0 +1,122 @@
+program StringProgram;
+
+#include( "stdlib.hhf" );
+// The file cs17string.hla is downloadable from the hyperlink shown above.
+// Place it in the same folder as this hla file you are working on
+
+#include( "cs17string.hla" );
+
+static
+  stringData : dword;
+  answer : int32;
+
+// TODO: CS 17 Students add code below to implement this function
+// Several hints are supplied
+
+procedure hasTwozs( stringData : dword ); @nodisplay; @noframe;
+static
+dReturnAddress : dword;
+EBXRegister : dword := 0;
+DXRegister : word := 0;
+count : int8 := 0;
+letter : dword := 0;
+
+begin hasTwozs;
+// TODO: CS 17 Students will need to preserve registers
+
+mov(EBX, EBXRegister);
+mov(DX, DXRegister);
+pop(dReturnAddress );
+pop(EBX); //has address to stringData
+
+// push back the return address
+push( dReturnAddress );
+// preserve registers
+push(EBXRegister);
+push(DXRegister);
+
+// begin function implementation
+mov(0,DX);
+Loop_Count:
+cmp( [ EBX ] , DH );
+je End_Count;
+//
+mov( [ EBX ] , DL);
+cmp(DL, 122);
+jne zNotFound;
+inc(count);
+zNotFound:
+//
+inc(EBX);
+jmp Loop_Count;
+
+End_Count:
+
+mov(0, EAX);
+cmp(count, 2);
+jne isFalse;
+
+isTrue:
+mov(1, EAX);
+jmp finished;
+
+isFalse:
+mov(0, EAX);
+jmp finished;
+
+finished: 
+
+// restore the registers used
+pop(DX);
+pop(EBX);
+ret();
+end hasTwozs;
+
+begin StringProgram; 
+
+stdout.put( "Please enter a string to process", nl );
+
+// this code allocates a string of size 80
+
+mov( @size( int8 ), AL );
+mov( 80, BL );
+inc( BL );
+mul( BL );
+mov( 0, EBX );
+mov( AX, BX );
+malloc( EBX );
+mov( EAX, stringData );
+
+// let's try reading a value into the string
+mov( stringData, EAX ); 
+push( EAX );
+mov( 80, CX ); //max length is 80
+push( CX );
+
+call gets; //gets(stringData, 80);
+
+// print the string
+stdout.put( "----> here is the string you entered: " );
+
+mov( stringData, EAX );
+push( EAX );
+call puts;
+
+stdout.newln();
+
+// initialize EAX before calling the function.
+mov( 0, EAX );
+
+// TODO: send a string parameter to the function
+mov(stringData, EAX);
+push(EAX);
+call hasTwozs;
+
+mov( EAX, answer );
+
+// show the results
+stdout.put( "after hasTwozs --- result=" );
+stdout.put( answer );
+stdout.newln();
+
+end StringProgram;

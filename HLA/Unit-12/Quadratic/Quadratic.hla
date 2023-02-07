@@ -1,0 +1,100 @@
+program Quadratic
+#include( "stdlib.hhf" );
+
+static
+a : real32 := 0;
+b : real32 := 0;
+c : real32 := 0;
+_Bsquared : real32 := 0;
+_negative_B : real32 := 0;
+_4ac : real32 := 0;
+_sqrt_disc : real32 := 0;
+discriminant : real32 := 0;
+add_numerator : real32 := 0;
+sub_numerator : real32 := 0;
+denominator : real32 := 0;
+x1 : real32 := 0;
+x2 : real32 := 0;
+
+begin Quadratic;
+
+stdout.put("Gimme a value for a: ");
+stdin.get(a);
+stdout.put("Gimme a value for b: ");
+stdin.get(b);
+stdout.put("Gimme a value for c: ");
+stdin.get(c);
+
+// Negative b
+
+finit();
+fld(b);
+fld(-1.00);
+fmulp();
+fstp(_negative_B); // -b
+
+//Discriminant: b^2 - 4ac
+
+finit();
+fld(b);
+fld(st0);
+fmulp(); 
+fstp(_Bsquared); //b^2
+
+finit();
+fld(4.00);
+fld(a);
+fmulp();
+fld(c);
+fmulp();
+fstp(_4ac); // 4ac
+
+finit();
+fld(_Bsquared);
+fld(_4ac);
+fsub();
+fsqrt();
+fstp(_sqrt_disc); // sqrt(discriminant)
+
+// -b + sqrt(discriminant)
+finit();
+fld(_negative_B);
+fld(_sqrt_disc);
+fadd();
+fstp(add_numerator);
+
+// -b - sqrt(discriminant)
+finit();
+fld(_negative_B);
+fld(_sqrt_disc);
+fsub();
+fstp(sub_numerator);
+
+// denominator
+finit();
+fld(2.00);
+fld(a);
+fmulp();
+fstp(denominator);
+
+// x1
+finit();
+fld(add_numerator);
+fld(denominator);
+fdiv();
+fstp(x1);
+
+// x2
+finit();
+fld(sub_numerator);
+fld(denominator);
+fdiv();
+fstp(x2);
+
+stdout.put("The solutions are x = ");
+stdout.putr32(x2, 6, 3);
+stdout.put(" and x = ");
+stdout.putr32(x1, 6, 3);
+
+end Quadratic;
+

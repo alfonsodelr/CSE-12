@@ -1,0 +1,105 @@
+program ReferenceProgram ;
+#include( "stdlib.hhf" );
+static
+iValue1 : int16 := 0;
+iValue2 : int16 := 0;
+iValue3 : int16 := 0;
+// TODO: CS 17 Students add code below to implement this function
+// Several hints are supplied
+procedure makeSmallest( var i : int16; var j : int16; var k : int16 );@nodisplay; @noframe;
+static
+dReturnAddress : dword;
+EDXRegister : dword := 0; 
+ECXRegister : dword := 0; 
+EBXRegister : dword := 0; 
+AXRegister : word := 0;
+smallest : word := 0;
+
+begin makeSmallest ;
+// entry sequence
+// preserve registers used
+mov( AX, AXRegister );
+mov( EBX, EBXRegister );
+mov( ECX, ECXRegister );
+mov( EDX, EDXRegister );
+pop( dReturnAddress );
+pop(EDX);
+mov([EDX],k);
+pop(ECX);
+mov([ECX],j);
+pop(EBX);
+mov([EBX],i);
+// push back the return address
+push( dReturnAddress );
+// preserve registers
+push( EDXRegister );
+push( ECXRegister );
+push( EBXRegister );
+push(AXRegister);
+
+mov(i, EAX);
+mov(EAX, [EBX]); //iValue1
+mov(j, EAX);
+mov(EAX, [ECX]); //iValue2
+mov(k, EAX);
+mov(EAX, [EDX]); //iValue3
+
+// TODO: implement function
+
+mov([EBX], smallest);
+
+mov(smallest, AX);
+cmp([ECX], AX);
+jge newSmallest_01;
+mov([ECX], smallest);
+newSmallest_01:
+
+mov(smallest, AX);
+cmp([EDX], AX);
+jge newSmallest_02;
+mov([EDX], smallest);
+newSmallest_02:
+
+mov(smallest, [EBX]);
+mov(smallest, [ECX]);
+mov(smallest, [EDX]);
+
+// restore the registers used
+pop( AX );
+pop( EBX ); 
+pop( ECX );
+pop( EDX );
+ret();
+
+end makeSmallest ;
+
+begin ReferenceProgram ;
+
+stdout.put( "Gimme iValue1:" );
+stdin.get( iValue1 );
+stdout.put( "Gimme iValue2:" );
+stdin.get( iValue2 );
+stdout.put( "Gimme iValue3:" );
+stdin.get( iValue3 );
+
+// TODO: push parameters to the function.
+lea(EAX, iValue1);
+push(EAX);
+lea(EAX, iValue2);
+push(EAX);
+lea(EAX, iValue3);
+push(EAX);
+
+// These parameters must be passed by-reference.
+call makeSmallest ;
+stdout.put( "after makeSmallest!" );
+stdout.newln();
+stdout.put( "iValue1 = " );
+stdout.put( iValue1 );
+stdout.put( "iValue2 = " );
+stdout.put( iValue2 );
+stdout.put( "iValue3 = " );
+stdout.put( iValue3 );
+stdout.newln();
+
+end ReferenceProgram;

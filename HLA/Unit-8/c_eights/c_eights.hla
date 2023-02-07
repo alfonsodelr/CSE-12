@@ -1,0 +1,65 @@
+program crazy_eights;
+
+#include ("stdlib.hhf");
+
+static
+input_a : int32 := 0;
+input_b : int32 := 0;
+input_c : int32 := 0;
+total_sum : int32 := 0;
+temp_sum : int32 := 0;
+
+begin crazy_eights;
+
+WhileLp:
+mov(0, temp_sum);
+//Get Inputs
+stdout.put("Gimme a number: ");
+stdin.get(input_a);
+stdout.put("Gimme a number: ");
+stdin.get(input_b);
+stdout.put("Gimme a number: ");
+stdin.get(input_c);
+
+//get sum
+mov(temp_sum, EAX);
+mov(total_sum, EBX);
+add(input_a, EAX);
+add(input_b, EAX);
+add(input_c, EAX);
+mov(EAX, temp_sum);
+add(EAX, EBX);
+mov(EBX, total_sum);
+
+WhileLpTermination: //Condition
+cmp(temp_sum, 8);
+je sum_eight;
+cmp(input_a, 8);
+je crazy_eight;
+cmp(input_b, 8);
+je crazy_eight;
+cmp(input_c, 8);
+je crazy_eight;
+
+WhileLpBody: //Body
+
+jmp WhileLpDone; //else break
+
+//crazy 8
+crazy_eight:
+stdout.put("crazy 8!", nl);
+jmp WhileLp;
+
+//sum 8
+sum_eight:
+stdout.put("regular 8", nl);
+jmp WhileLp;
+
+WhileLpDone:
+
+stdout.newln();
+stdout.put("Game Over!",nl,"Score = ", total_sum, nl);
+stdout.newln();
+stdout.put("Program Finished"); 
+
+end crazy_eights;

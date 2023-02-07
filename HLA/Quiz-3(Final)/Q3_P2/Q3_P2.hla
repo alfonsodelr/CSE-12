@@ -1,0 +1,91 @@
+program isNoneZeroProgram;
+#include( "stdlib.hhf" );
+static
+
+iValue1: int16 := 0;
+iValue2: int16 := 0;
+iValue3: int16 := 0;
+iAnswer : int32 := 0;
+
+// TODO: CS 17 Students add code below to implement this function
+// Several hints are supplied
+procedure noneZero( value1 : int16; value2 : int16; value3 : int16 );@nodisplay; @noframe;
+static
+dReturnAddress : dword;
+BXRegister : word := 0;
+temp : word := 0;
+answer : int8 := 1; //true by default
+
+begin noneZero;
+
+// entry sequence
+mov(BX, BXRegister);
+
+pop(dReturnAddress);
+pop(temp); //padding
+pop(value3);
+pop(value2);
+pop(value1);
+// push back the return address
+push( dReturnAddress );
+// preserve registers used
+push(BXRegister);
+
+// begin function task
+mov(0, BX);
+
+//value1 test
+cmp(value1, BX);
+jne notZero_01;
+mov(0, answer); 
+jmp finished;
+notZero_01:
+
+//value2 test
+cmp(value2, BX);
+jne notZero_02;
+mov(0, answer);
+jmp finished;
+notZero_02:
+
+//value3 test
+cmp(value3, BX);
+jne notZero_03;
+mov(0, answer);
+jmp finished;
+notZero_03:
+
+finished:
+
+// leave the answer in EAX
+mov(0, EAX);
+mov(answer, AL);
+
+// restore the registers used
+pop(BX);
+ret();
+end noneZero;
+
+begin isNoneZeroProgram;
+
+stdout.put("Gimme iValue1:" );
+stdin.get(iValue1);
+stdout.put("Gimme iValue2:" );
+stdin.get(iValue2);
+stdout.put("Gimme iValue3:" );
+stdin.get(iValue3);
+
+// TODO: push parameters to the function.
+push(iValue1);
+push(iValue2);
+push(iValue3);
+mov(0,AX);
+push(AX); //padding 
+
+call noneZero;
+mov( EAX, iAnswer );
+
+stdout.put( "after noneZero iAnswer=", iAnswer );
+stdout.newln(); 
+
+end isNoneZeroProgram;

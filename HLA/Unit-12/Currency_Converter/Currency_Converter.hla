@@ -1,0 +1,70 @@
+program currency_converter;
+
+#include("stdlib.hhf");
+
+static
+input : real32 := 0;
+output : real32 := 0;
+pounds : real32 := 0.07403e+1;
+pesos : real32 := 205.647e+1;
+
+begin currency_converter;
+
+stdout.put("What's in your wallet: ");
+stdin.get(input);
+
+finit();
+fld(input);
+fld(pounds);
+fmulp();
+fstp(output);
+
+stdout.put("This is ");
+stdout.putr32(output, 4, 2);
+stdout.put(" in British pounds", nl);
+
+finit();
+fld(input);
+fld(pesos);
+fmulp();
+fstp(output);
+
+stdout.put("This is ");
+stdout.putr32(output, 8, 2);
+stdout.put(" in Mexican pesos", nl);
+
+stdout.newln();
+
+///////////////////////////////////////////////
+
+
+stdout.put("What's your number: ");
+stdin.get(input);
+
+finit();
+fld(input);
+fld(pounds);
+fmulp();
+fstp(output);
+
+stdout.put("This is ");
+stdout.putr32(output, 5, 2);
+stdout.put(" in British pounds", nl);
+
+finit();
+fld(input);
+fld(pesos);
+fmulp();
+fstp(output);
+
+stdout.put("This is ");
+stdout.putr32(output, 9, 2);
+stdout.put(" in Mexican pesos", nl);
+
+stdout.newln();
+
+end currency_converter;
+
+
+// NOTES
+// stdout.putr32(var, spaces_needed, amount_of_decimal_spots);
